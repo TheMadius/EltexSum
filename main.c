@@ -64,10 +64,10 @@ char *gerRandStrA(int len)
 
 char * getStr(int len)
 {
-    srand(time(NULL));
+    srand(time(NULL)*len);
     double r = ((double)rand())/RAND_MAX;    
 
-    if(r >= sin(len))
+    if(r > sin(len))
         return gerRandStrA(len);
     else
         return gerRandStr(len);
@@ -76,14 +76,21 @@ char * getStr(int len)
 
 int main(int argc, char** argv)
 {
+    int count = 0;
     for(int i = 0; i < atoi(argv[1]);i++)
     {
-        char *str = getStr(atof(argv[2]));
+        int r = 10 + rand()%241;
+        char *str = getStr(r);
 
         if(reWord(str))
-            printf("%s\n",str);
+        {
+            count++;
+            printf("%d)%s\n",count,str);
+        }
 
         free(str);
+        
+        srand(r);
     }
     
 }
