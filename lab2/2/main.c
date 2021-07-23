@@ -104,7 +104,7 @@ char*** getWords(int size, char* fileName, int *sizeOfArray)
     }
 
     *sizeOfArray = len;
-
+    fclose(f);
     return words;
 }
 
@@ -121,6 +121,20 @@ void  printArr(int len, char*** words)
     }
 }
 
+void clear(int len, char*** words)
+{
+    for (int i = 0; i < len; i++)
+    {
+        char** p = words[i];
+        for (; *p; p++)
+        {
+            free(*p);
+        }
+        free(words[i]);
+    }
+    free(words);
+}
+
 int main(int argc, char** argv)
 {
     int size = atoi(argv[1]) + 1;
@@ -133,4 +147,5 @@ int main(int argc, char** argv)
     words = getWords(size, fileName, &len);
 
     printArr(len, words);
+    clear(len, words);
 }
