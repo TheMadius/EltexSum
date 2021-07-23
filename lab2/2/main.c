@@ -115,7 +115,7 @@ void  printArr(int len, char*** words)
         char** p = words[i];
         for (; *p; p++)
         {
-            printf("\'%s\' ", *p);
+            printf("%s ", *p);
         }
         printf("\n");
     }
