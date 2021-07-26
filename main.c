@@ -1,3 +1,7 @@
+/*
+    Реализация ЭЦП на основе RSA
+    Hash функция случайное число в интервале [1..100]  
+*/
 #include "stdio.h"
 #include "stdlib.h"
 #include "locale.h"
