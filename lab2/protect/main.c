@@ -168,5 +168,4 @@ int main()
 
     printStat(arrSt);
 
-
 }
