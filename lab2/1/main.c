@@ -11,13 +11,11 @@ char * getSub(int start, int end, char * arr)
 {
     int len = end - start;
     char * str = malloc(sizeof(*str)*(len+1));
-
     for(int i = start; i < end; i++)
     {
         str[i - start] = arr[i];
     }
     str[len] = '\0';
-    
     return str;
 }
 
