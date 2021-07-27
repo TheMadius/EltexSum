@@ -10,36 +10,36 @@ typedef struct node
 } Node;
 
 
-char ** get_string_arr()
+char** get_string_arr()
 {
     char c;
     int len = 0;
-    int count = 0; 
-    char **res = malloc(sizeof(*res));
+    int count = 0;
+    char** res = (char**)malloc(sizeof(*res));
     res[0] = NULL;
 
     c = getchar();
 
-    while(c != '\n')
+    while (c != '\n')
     {
-        char *word = malloc(sizeof(*word));
+        char* word = (char*)malloc(sizeof(*word));
         len = 0;
         word[0] = '\0';
-          
-        while(c != ' ' && c != '\n')
+
+        while (c != ' ' && c != '\n')
         {
             len++;
-            word = realloc(word,sizeof(*word)*(len));
+            word = (char*)realloc(word, sizeof(*word) * (len));
             word[len - 1] = c;
             word[len] = '\0';
             c = getchar();
         }
-                
-        if(word[0] != '\0')
+
+        if (word[0] != '\0')
         {
             count++;
-            res = realloc(res,sizeof(*res)*(count));
-            res[count -1] = word;
+            res = (char**)realloc(res, sizeof(*res) * (count));
+            res[count - 1] = word;
             res[count] = NULL;
         }
         else
@@ -47,7 +47,7 @@ char ** get_string_arr()
             free(word);
         }
 
-        if(c == '\n')
+        if (c == '\n')
             break;
 
         c = getchar();
@@ -56,83 +56,117 @@ char ** get_string_arr()
     return res;
 }
 
-Node ** addElement(Node ** stat,char c)
+int getCount(Node** p)
 {
-    Node **p = stat;
-    bool flag = false;
     int count = 0;
-
-    for(;*p;p)
+    for (; *p; p++)
     {
-        Node *temp = *p;
         count++;
-        if(temp->c == c)
+    }
+    return count;
+}
+
+Node** addElement(Node** stat, char c)
+{
+    Node** p = stat;
+    bool flag = false;
+    int count = getCount(p);
+
+    for (; *p; p++)
+    {
+        Node* temp = *p;
+
+        if (temp->c == c)
         {
             temp->v += 1;
             flag = true;
         }
     }
 
-    if(!flag)
+    if (!flag)
     {
         count++;
-        stat = realloc(stat,sizeof(*stat)*(count+1));
+        stat = (Node**)realloc(stat, sizeof(*stat) * (count + 1));
         stat[count] = NULL;
-        stat[count - 1] = malloc(sizeof(Node));
+        stat[count - 1] = (Node*)malloc(sizeof(Node));
         stat[count - 1]->v = 1;
         stat[count - 1]->c = c;
     }
-
     return stat;
 }
 
-Node ** get_stat(char**word)
+Node** get_stat(char** word)
 {
     int count = 0;
 
-    Node ** stat = malloc(sizeof(*stat));
+    Node** stat = (Node**)malloc(sizeof(*stat));
     stat[0] = NULL;
 
-    for(;*word;word++)
+    for (; *word; word++)
     {
-        char*p = *word;
+        char* p = *word;
         int len = strlen(p);
         count += len;
-        for(;*p;p)
+        for (; *p; p++)
         {
-           addElement(stat,*p); 
+            stat = addElement(stat, *p);
         }
     }
+
+    Node** temp = stat;
+    for (; *temp; temp++)
+        (*temp)->v /= count;
 
     return stat;
 }
 
-void printWord(char **arr)
+void printWord(char** arr)
 {
-    char **temp = arr;
+    char** temp = arr;
     int i = 1;
-    for(;*temp;temp++)
+    for (; *temp; temp++)
     {
-        printf("%d)%s\n",i,*temp);
+        printf("%d)%s\n", i, *temp);
         i++;
     }
 }
-
-void delWord(char **arr)
+void printStat(Node** arrSt)
 {
-    char **temp = arr;
-    for(;*temp;temp++)
+    if (arrSt == NULL)
     {
-        free(*temp);
+        return;
     }
-    free(arr);
+
+    float max = (*arrSt)->v;
+    char cMax = (*arrSt)->c;
+
+    for (;*arrSt;arrSt++)
+    {
+        printf("Char: %c Frequency: %f\n", (*arrSt)->c, (*arrSt)->v);
+        if (max < (*arrSt)->v)
+        {
+            max = (*arrSt)->v;
+            cMax = (*arrSt)->c;
+        }
+    }
+    printf("\nMax: Char: %c(frequency: %f)\n", cMax, max);
 }
 
 int main()
 {
-    char** arr;
+    char ** arr;
+    Node ** arrSt;
+
+    printf("Enter text: ");
     arr = get_string_arr();
+
+    printf("Result:\n");
     printWord(arr);
 
-    delWord(arr);
+    printf("\nFrequency:\n");
+    arrSt = get_stat(arr);
+
+    printStat(arrSt);
+
+
 }
