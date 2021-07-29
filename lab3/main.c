@@ -3,7 +3,6 @@
 #include "stdbool.h"
 #include "string.h"
 #include "locale.h"
-#include "conio.h"
 
 #pragma warning(disable:4996)
 
@@ -248,20 +247,20 @@ int main()
 
     while (true)
     {
-        system("cls");
+        system("clear");
         printf("1 - Ввод новой записи\n2 - Загрузка из файла\n3 - Сохранение в файл\n4 - Просмотр записей\n5 - Сортировка записей\n6 - Удаление записи\n7 - Изменение записи\n8 - Поиск записи\n9 - Вычислить количество студентов\n0 - Выход\n");
         printf("Ввод: ");
-        c = getch();
+        c = getchar();
 
         switch (c)
         {
         case '1':
-            system("cls");
+            system("clear");
             arr = addEntry(arr, &size);
             break;
         case '2':
         {
-            system("cls");
+            system("clear");
             printf("Введите имя файла: ");
             char *str = get_string();
             if (arr != NULL)
@@ -272,7 +271,7 @@ int main()
 
         case '3':
         {
-            system("cls");
+            system("clear");
             printf("Введите имя файла: ");
             char* str = get_string();
             saveFile(arr, size, str);
@@ -280,22 +279,23 @@ int main()
         }
         case '4':
         {
-            system("cls");
+            system("clear");
             printEntry(arr, size);
-            getch();
+            getchar();
+            getchar();
             break;
         }
         case '5':
         {
-            system("cls");
+            system("clear");
             qsort(arr, size, sizeof(Student), (int(*) (const void*, const void*)) comp);
             printf("Сортировка завершена.......");
-            getch();
+            getchar();
             break;
         }
         case '6':
         {
-            system("cls");
+            system("clear");
             printEntry(arr, size);
             printf("\nКакую запись удалить? ");
             int n;
@@ -305,7 +305,7 @@ int main()
         }
         case '7':
         {
-            system("cls");
+            system("clear");
             printEntry(arr, size);
             printf("\nКакую запись изменить? ");
             int n;
@@ -315,26 +315,26 @@ int main()
         }
         case '8':
         {
-            system("cls");
+            system("clear");
             int mod;
             char* str;
             printf("Поиск по:\n1 - Фамилии\n2 - Номеру зачетной книжки\n3 - Факультету\n4 - Группе\n");
-            mod = getch() - '0';
+            mod = getchar() - '0';
             printf("\nЧто нужно найти? ");
             str = get_string();
-            system("cls");
+            system("clear");
             findEntry(arr, size,mod, str);
-            getch();
+            getchar();
             break;
         }
         case '9':
         {
-            system("cls");
+            system("clear");
             printf("\nКакой факультет? ");
             char* str = get_string();
             int kol = countStud(arr, size, str);
             printf("Количество студентов на факультете %s: %d", str,kol);
-            getch();
+            getchar();
         }
             break;
         case '0':
