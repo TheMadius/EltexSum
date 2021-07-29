@@ -10,49 +10,51 @@ bool isDigit(char c)
     return (c >= '0' && c <= '9');
 }
 
-char *getNull()
+char* getNull()
 {
-    char * arr;
-    arr = malloc(sizeof(char)*sizeof(int));
+    char* arr;
+    arr = (char*)malloc(sizeof(char) * sizeof(int));
 
-    *((int *)arr) = 0;
+    *((int*)arr) = 0;
+
     return arr;
 }
 
 char* enterData()
 {
-    char * arr;
+    char* arr;
     int size = sizeof(int);
     char c = getchar();
-    arr = malloc(sizeof(char)*size);
-
-    *((int *)arr) = 0;
+    arr = (char*)malloc(sizeof(char) * size);
 
     while (c != '\n')
     {
         size++;
-        arr = realloc(arr,sizeof(char)*size);
+        arr = (char*)realloc(arr, sizeof(char) * size);
         arr[size - 1] = c;
         c = getchar();
     }
-    
+
+    *((int*)arr) = size - sizeof(int);
+
     return arr;
 }
 
 void printStr(char** arr)
 {
     int size = *((int*)(*arr));
-    while(size)
+
+    while (size)
     {
-        char * p = *arr;
-        for(int i = 0;i < size;i++)
+        char* p = *arr;
+        for (int i = 0; i < size; i++)
         {
-            printf("%c",*( p + sizeof(int) + i));
+            printf("%c", *(p + sizeof(int) + i));
         }
 
         arr++;
         printf("\n");
-        size = *((int*)arr);
+        size = *((int*)*arr);
     }
 }
 
@@ -65,13 +67,14 @@ int main()
     scanf("%d", &n);
     getchar();
 
-    res = (char **)malloc(sizeof(char*)*(n+1));
+    res = (char**)malloc(sizeof(char*) * (n + 1));
 
     for (int i = 0; i < n; ++i)
     {
-        printf("Enter string #%d: ",i+1);
+        printf("Enter string #%d: ", i + 1);
         res[i] = enterData();
     }
+
     res[n] = getNull();
 
     printf("\nResult:\n");
