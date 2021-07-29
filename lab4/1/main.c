@@ -106,7 +106,7 @@ int main()
         printf("Enter string #%d: ",i+1);
         res[i] = enterData();
     }
-    printf("Result:\n");
+    printf("\nResult:\n");
 
     for (int i = 0; i < n; ++i)
     {
