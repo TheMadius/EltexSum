@@ -69,6 +69,28 @@ char* enterData()
     return arr;
 }
 
+void printStr(char *arr)
+{
+    char *temp = arr;
+    for(;*temp;temp++)
+    {
+        if(*temp == '\1')
+        {
+            int * num; 
+            num = (int*)(++temp);
+            temp += sizeof(int);
+        
+            printf("%d",*num);
+        }
+        else 
+        {
+            printf("%c",*temp);
+        }
+    }
+
+    printf("\n");
+}
+
 int main()
 {
     int n;
@@ -78,6 +100,5 @@ int main()
     scanf("%d", &n);
     getchar();
     res = enterData();
-
-    printf("%s\n", res);
+    printStr(res);
 }
