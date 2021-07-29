@@ -14,6 +14,7 @@ char* enterData()
 {
     char* arr;
     int size = 0;
+    int n = 0;
     char c = getchar();
     char* digit = (char*)malloc(sizeof(char));
 
@@ -35,13 +36,13 @@ char* enterData()
             if (size != 0)
             {
                 int num = atoi(digit);
-                int n = strlen(arr);
                 int* temp;
 
                 arr = (char*)realloc(arr, sizeof(char) * (n + sizeof(int) + 2));
                 arr[n + 1 + sizeof(int)] = '\0';
                 arr[n] = '\1';
-                temp = (int*)arr + n + 1;
+
+                temp = (int*)(arr + n + 1);
                 *temp = num;
 
                 size = 0;
@@ -49,15 +50,12 @@ char* enterData()
 
                 digit = (char*)malloc(sizeof(char));
                 digit[0] = '\0';
-
+                n += sizeof(int) + 1;
             }
 
             if (c == '\n')
-            {
                 break;
-            }
 
-            int n = strlen(arr);
             n++;
             arr = (char*)realloc(arr, sizeof(char) * (n + 1));
             arr[n] = '\0';
@@ -69,22 +67,23 @@ char* enterData()
     return arr;
 }
 
-void printStr(char *arr)
+void printStr(char* arr)
 {
-    char *temp = arr;
-    for(;*temp;temp++)
+    char* temp = arr;
+    for (; *temp; temp++)
     {
-        if(*temp == '\1')
+        if (*temp == '\1')
         {
-            int * num; 
-            num = (int*)(++temp);
-            temp += sizeof(int);
-        
-            printf("%d",*num);
+            int* num;
+            temp++;
+            num = (int*)(temp);
+            temp += sizeof(int) - 1;
+
+            printf("%d", *num);
         }
-        else 
+        else
         {
-            printf("%c",*temp);
+            printf("%c", *temp);
         }
     }
 
@@ -94,11 +93,23 @@ void printStr(char *arr)
 int main()
 {
     int n;
-    char* res;
+    char** res;
 
     printf("Enter count:");
     scanf("%d", &n);
     getchar();
-    res = enterData();
-    printStr(res);
+
+    res = (char **)malloc(sizeof(char*)*n);
+
+    for (int i = 0; i < n; ++i)
+    {
+        printf("Enter string #%d: ",i+1);
+        res[i] = enterData();
+    }
+    printf("Result:\n");
+
+    for (int i = 0; i < n; ++i)
+    {
+        printStr(res[i]);
+    }
 }
