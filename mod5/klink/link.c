@@ -29,21 +29,19 @@ static int test = 7;
 #define RESTORE_LEDS  0xFF
 
 static struct kobject *example_kobject;
-static int foo;
 
 static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
-        return sprintf(buf, "count:%d\n", foo);
+        return sprintf(buf, "count:%d\n", test);
 }
 
 static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,const char *buf, size_t count)
 {
-        sscanf(buf, "%du", &foo);
-        test = foo;
+        sscanf(buf, "%du", &test);
         return count;
 }
 
-static struct kobj_attribute foo_attribute =__ATTR(foo, 0660, foo_show, foo_store);
+static struct kobj_attribute foo_attribute =__ATTR(test, 0660, foo_show, foo_store);
 
 static void my_timer_func(struct timer_list *ptr)
 {
@@ -61,7 +59,6 @@ static void my_timer_func(struct timer_list *ptr)
 static int __init kbleds_init(void)
 {
         int i;
-
         int error = 0;
 
         pr_debug("Module initialized successfully \n");
@@ -93,6 +90,7 @@ static int __init kbleds_init(void)
 
         my_timer.expires = jiffies + BLINK_DELAY;
         add_timer(&my_timer);
+        
         return 0;
 }
 
